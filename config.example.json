@@ -1,0 +1,32 @@
+{
+  "instances": [
+    {
+      "name": "prod-main",
+      "description": "生产环境主库",
+      "host": "prod-mysql.example.com",
+      "port": 3306,
+      "user": "readonly_user",
+      "password": "your_password",
+      "database": "app_db",
+      "connectionLimit": 10,
+      "queueLimit": 0,
+      "connectTimeout": 10000,
+      "idleTimeout": 60000,
+      "maxIdle": 3
+    },
+    {
+      "name": "(必填) 实例唯一标识，调用工具时通过此名称指定实例",
+      "host": "(必填) MySQL 主机地址",
+      "user": "(必填) MySQL 用户名",
+      "description": "(可选) 实例描述，list_instances 时展示",
+      "port": "(可选) MySQL 端口，默认 3306",
+      "password": "(可选) MySQL 密码",
+      "database": "(可选) 默认数据库，工具调用时可省略 database 参数",
+      "connectionLimit": "(可选) 连接池最大连接数，默认 10",
+      "queueLimit": "(可选) 等待队列最大长度，0=无限制，默认 0",
+      "connectTimeout": "(可选) 建立连接超时时间(ms)，默认 10000",
+      "idleTimeout": "(可选) 空闲连接超时时间(ms)，超时后自动释放",
+      "maxIdle": "(可选) 连接池中最大空闲连接数"
+    }
+  ]
+}

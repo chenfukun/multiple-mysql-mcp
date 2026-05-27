@@ -1,0 +1,9 @@
+node_modules/
+build/
+*.js
+*.d.ts
+*.js.map
+.env
+
+# 实际实例配置文件含密码，不要提交
+mysql-instances.json
