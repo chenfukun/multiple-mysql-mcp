@@ -9,36 +9,13 @@ const ALLOWED_COMMANDS = [
   'SHOW',
   'DESCRIBE',
   'DESC',
-  'EXPLAIN',
-];
-
-// List of disallowed SQL commands (write operations)
-const DISALLOWED_COMMANDS = [
-  'INSERT',
-  'UPDATE',
-  'DELETE',
-  'DROP',
-  'CREATE',
-  'ALTER',
-  'TRUNCATE',
-  'RENAME',
-  'REPLACE',
-  'GRANT',
-  'REVOKE',
-  'LOCK',
-  'UNLOCK',
-  'CALL',
-  'EXEC',
-  'EXECUTE',
-  'SET',
-  'START',
-  'BEGIN',
-  'COMMIT',
-  'ROLLBACK',
+  'EXPLAIN'
 ];
 
 /**
- * Validates if a SQL query is read-only
+ * Validates if a SQL query is read-only based on its opening keyword.
+ * The actual read-only enforcement is done at the session level via
+ * `SET SESSION TRANSACTION READ ONLY` in connection.ts.
  */
 export function isReadOnlyQuery(query: string): boolean {
   const normalizedQuery = query
@@ -52,15 +29,7 @@ export function isReadOnlyQuery(query: string): boolean {
     normalizedQuery.startsWith(cmd + ' ') || normalizedQuery === cmd
   );
 
-  const containsDisallowed = DISALLOWED_COMMANDS.some(cmd => {
-    const regex = new RegExp(`(^|\\s)${cmd}(\\s|$)`);
-    return regex.test(normalizedQuery);
-  });
-
-  const hasMultipleStatements = normalizedQuery.includes(';') &&
-    !normalizedQuery.endsWith(';');
-
-  return startsWithAllowed && !containsDisallowed && !hasMultipleStatements;
+  return startsWithAllowed;
 }
 
 /**

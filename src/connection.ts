@@ -142,6 +142,9 @@ export async function executeQuery(
   try {
     connection = await pool.getConnection();
 
+    // Enforce read-only at the session level
+    await connection.query(`SET SESSION TRANSACTION READ ONLY`);
+
     if (timezone) {
       console.error(`[Query] Setting session time_zone = '${timezone}'`);
       await connection.query(`SET time_zone = ?`, [timezone]);
